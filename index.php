@@ -135,7 +135,7 @@ class SpecialMenu extends Plugin
         }
 
         // initialize return content, begin plugin content
-        $content = '<!-- BEGIN ' . self::PLUGIN_TITLE . ' plugin content --> ';
+        $content = '';
 
         switch ($param_type) {
             case 'main':
@@ -169,7 +169,9 @@ class SpecialMenu extends Plugin
                     $extensions
                 );
                 // real cat name without '/'
-                $cat = substr($param_category, $this->strrpos($param_category, '%2F')+3);
+                if (strpos($cat, '%2F') !== false) {
+                    $cat = substr($param_category, $this->strrpos($param_category, '%2F')+3);
+                }
                 // build page list
                 foreach ($pagearray as $page) {
                     // handle page with same name as category
@@ -186,9 +188,6 @@ class SpecialMenu extends Plugin
                 # code...
                 break;
         }
-
-        // end plugin content
-        $content .= '<!-- END ' . self::PLUGIN_TITLE . ' plugin content --> ';
 
         return $content;
     }
