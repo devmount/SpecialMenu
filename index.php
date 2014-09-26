@@ -145,6 +145,7 @@ class SpecialMenu extends Plugin
                 }
                 $content .= '<div class="specialmenu">';
                 foreach ($cats as $cat) {
+                    // build page link with mozilo syntax [kategorie|...]
                     $content .=
                         '[kategorie='. urldecode($cat)
                         . '|@='. $cat . '=@]';
@@ -171,8 +172,10 @@ class SpecialMenu extends Plugin
                     $extensions
                 );
                 // real cat name without '/'
-                if (strpos($cat, '%2F') !== false) {
+                if (strpos($param_category, '%2F') !== false) {
                     $cat = substr($param_category, $this->strrpos($param_category, '%2F')+3);
+                } else {
+                    $cat = $param_category;
                 }
                 // build page list
                 $content .= '<div class="specialmenu">';
