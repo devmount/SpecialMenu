@@ -51,8 +51,10 @@ class SpecialMenu extends Plugin
         = 'http://devmount.de/Develop/moziloCMS/Plugins/SpecialMenu.html';
 
     private $_plugin_tags = array(
-        'tag1' => '{SpecialMenu|if|<category>|<content>}',
-        'tag2' => '{SpecialMenu|this|<category>}',
+        'tag1' => '{SpecialMenu|main}',
+        'tag2' => '{SpecialMenu|if|<category>|<content>}',
+        'tag3' => '{SpecialMenu|ifnot|<category>|<content>}',
+        'tag4' => '{SpecialMenu|pages|<category>}',
     );
 
     const LOGO_URL = 'http://media.devmount.de/logo_pluginconf.png';
@@ -69,45 +71,24 @@ class SpecialMenu extends Plugin
      *      radio    => default, type, descriptions
      *      select   => default, type, descriptions, multiselect
      */
-    // private $_confdefault = array(
-    //     'text' => array(
-    //         'string',
-    //         'text',
-    //         '100',
-    //         '5',
-    //         "/^[0-9]{1,3}$/",
-    //     ),
-    //     'textarea' => array(
-    //         'string',
-    //         'textarea',
-    //         '10',
-    //         '10',
-    //         "/^[a-zA-Z0-9]{1,10}$/",
-    //     ),
-    //     'password' => array(
-    //         'string',
-    //         'password',
-    //         '100',
-    //         '5',
-    //         "/^[a-zA-Z0-9]{8,20}$/",
-    //         true,
-    //     ),
-    //     'check' => array(
-    //         true,
-    //         'check',
-    //     ),
-    //     'radio' => array(
-    //         'red',
-    //         'radio',
-    //         array('red', 'green', 'blue'),
-    //     ),
-    //     'select' => array(
-    //         'bike',
-    //         'select',
-    //         array('car','bike','plane'),
-    //         false,
-    //     ),
-    // );
+    private $_confdefault = array(
+        'hidefirstcat' => array(
+            'true',
+            'check',
+        ),
+        'showcatlikepage' => array(
+            'false',
+            'check',
+        ),
+        'showhidden' => array(
+            'false',
+            'check',
+        ),
+        'showdraft' => array(
+            'false',
+            'check',
+        ),
+    );
 
     /**
      * creates plugin content
@@ -120,6 +101,7 @@ class SpecialMenu extends Plugin
     {
         global $CMS_CONF;
         global $syntax;
+        global $CatPage;
 
         // initialize cms lang
         $this->_cms_lang = new Language(
@@ -136,17 +118,74 @@ class SpecialMenu extends Plugin
         $param_content = trim($param_content);
 
         // get conf and set default
-        // $conf = array();
-        // foreach ($this->_confdefault as $elem => $default) {
-        //     $conf[$elem] = ($this->settings->get($elem) == '')
-        //         ? $default[0]
-        //         : $this->settings->get($elem);
-        // }
+        $conf = array();
+        foreach ($this->_confdefault as $elem => $default) {
+            $conf[$elem] = ($this->settings->get($elem) == '')
+                ? $default[0]
+                : $this->settings->get($elem);
+        }
+
+        // get file extensions
+        $extensions = array(EXT_PAGE);
+        if ($conf['showhidden'] == 'true') {
+            $extensions[] = EXT_HIDDEN;
+        }
+        if ($conf['showdraft'] == 'true') {
+            $extensions[] = EXT_DRAFT;
+        }
 
         // initialize return content, begin plugin content
         $content = '<!-- BEGIN ' . self::PLUGIN_TITLE . ' plugin content --> ';
 
-        // do something awesome here! ...
+        switch ($param_type) {
+            case 'main':
+                $cats = $CatPage->get_CatArray();
+                if ($conf['hidefirstcat'] == 'true') {
+                    array_shift($cats);
+                }
+                foreach ($cats as $cat) {
+                    $content .=
+                        '[kategorie='. urldecode($cat)
+                        . '|@='. $cat . '=@]';
+                }
+                break;
+
+            case 'if':
+                if ($param_category == CAT_REQUEST) {
+                    $content .= $param_content;
+                }
+                break;
+
+            case 'ifnot':
+                if ($param_category != CAT_REQUEST) {
+                    $content .= $param_content;
+                }
+                break;
+
+            case 'pages':
+                // get pages of given category
+                $pagearray = $CatPage->get_PageArray(
+                    $param_category,
+                    $extensions
+                );
+                // real cat name without '/'
+                $cat = substr($param_category, $this->strrpos($param_category, '%2F')+3);
+                // build page list
+                foreach ($pagearray as $page) {
+                    // handle page with same name as category
+                    if ($conf['showcatlikepage'] == 'true' or $page != $cat) {
+                        // build page link with mozilo syntax [seite|...]
+                        $content .=
+                            '[seite='. urldecode($page)
+                            . '|@='. $param_category . ':'. $page . '=@]';
+                    }
+                }
+                break;
+
+            default:
+                # code...
+                break;
+        }
 
         // end plugin content
         $content .= '<!-- END ' . self::PLUGIN_TITLE . ' plugin content --> ';
@@ -249,43 +288,57 @@ class SpecialMenu extends Plugin
             $admin_css .= trim($line);
         }
 
-        // // add template CSS
-        // $template = '<style>' . $admin_css . '</style>';
+        // add template CSS
+        $template = '<style>' . $admin_css . '</style>';
 
-        // // build Template
-        // $template .= '
-        //     <div class="specialmenu-admin-header">
-        //     <span>'
-        //         . $this->_admin_lang->getLanguageValue(
-        //             'admin_header',
-        //             self::PLUGIN_TITLE
-        //         )
-        //     . '</span>
-        //     <a href="' . self::PLUGIN_DOCU . '" target="_blank">
-        //     <img style="float:right;" src="' . self::LOGO_URL . '" />
-        //     </a>
-        //     </div>
-        // </li>
-        // <li class="mo-in-ul-li ui-widget-content specialmenu-admin-li">
-        //     <div class="specialmenu-admin-subheader">'
-        //     . $this->_admin_lang->getLanguageValue('admin_test')
-        //     . '</div>
-        //     <div class="specialmenu-single-conf">
-        //         {test1_text}
-        //         {test1_description}
-        //         <span class="specialmenu-admin-default">
-        //             [' . /*$this->_confdefault['test1'][0] .*/']
-        //         </span>
-        //     </div>
-        //     <div class="specialmenu-single-conf">
-        //         {test2_text}
-        //         {test2_description}
-        //         <span class="specialmenu-admin-default">
-        //             [' . /*$this->_confdefault['test2'][0] .*/']
-        //         </span>
-        // ';
+        // build Template
+        $template .= '
+            <div class="specialmenu-admin-header">
+            <span>'
+                . $this->_admin_lang->getLanguageValue(
+                    'admin_header',
+                    self::PLUGIN_TITLE
+                )
+            . '</span>
+            <a href="' . self::PLUGIN_DOCU . '" target="_blank">
+            <img style="float:right;" src="' . self::LOGO_URL . '" />
+            </a>
+            </div>
+        </li>
+        <li class="mo-in-ul-li ui-widget-content specialmenu-admin-li">
+            <div class="specialmenu-admin-subheader">'
+            . $this->_admin_lang->getLanguageValue('admin_test')
+            . '</div>
+            <div class="specialmenu-single-conf">
+                {hidefirstcat_checkbox}
+                {hidefirstcat_description}
+                <span class="specialmenu-admin-default">
+                    [' . $this->_confdefault['hidefirstcat'][0] .']
+                </span>
+            </div>
+            <div class="specialmenu-single-conf">
+                {showcatlikepage_checkbox}
+                {showcatlikepage_description}
+                <span class="specialmenu-admin-default">
+                    [' . $this->_confdefault['showcatlikepage'][0] .']
+                </span>
+            </div>
+            <div class="specialmenu-single-conf">
+                {showhidden_checkbox}
+                {showhidden_description}
+                <span class="specialmenu-admin-default">
+                    [' . $this->_confdefault['showhidden'][0] .']
+                </span>
+            </div>
+            <div class="specialmenu-single-conf">
+                {showdraft_checkbox}
+                {showdraft_description}
+                <span class="specialmenu-admin-default">
+                    [' . $this->_confdefault['showdraft'][0] .']
+                </span>
+        ';
 
-        // $config['--template~~'] = $template;
+        $config['--template~~'] = $template;
 
         return $config;
     }
@@ -537,6 +590,20 @@ class SpecialMenu extends Plugin
             . '</div>';
     }
 
+    /**
+     * finds last occurence of substring
+     *
+     * @param  string $haystack
+     * @param  string $needle
+     * @param  int    $offset
+     *
+     * @return int position of last occurence
+     */
+    protected function strrpos($haystack,$needle,$offset=NULL) {
+        return strlen($haystack)
+            - strpos( strrev($haystack) , strrev($needle) , $offset)
+            - strlen($needle);
+    }
 }
 
 ?>
