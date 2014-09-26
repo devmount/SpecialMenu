@@ -3,7 +3,7 @@
 /**
  * moziloCMS Plugin: SpecialMenu
  *
- * Does something awesome!
+ * Offers additional menu functions
  *
  * PHP version 5
  *
@@ -307,7 +307,7 @@ class SpecialMenu extends Plugin
         </li>
         <li class="mo-in-ul-li ui-widget-content specialmenu-admin-li">
             <div class="specialmenu-admin-subheader">'
-            . $this->_admin_lang->getLanguageValue('admin_test')
+            . $this->_admin_lang->getLanguageValue('admin_display')
             . '</div>
             <div class="specialmenu-single-conf">
                 {hidefirstcat_checkbox}
@@ -385,7 +385,8 @@ class SpecialMenu extends Plugin
             self::MOZILO_VERSION,
             $this->_admin_lang->getLanguageValue(
                 'description',
-                htmlspecialchars($this->_plugin_tags['tag1'])
+                htmlspecialchars($this->_plugin_tags['tag1']),
+                htmlspecialchars($this->_plugin_tags['tag2'])
             ),
             self::PLUGIN_AUTHOR,
             array(

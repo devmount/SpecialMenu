@@ -1,4 +1,12 @@
-tag1         = Gibt ... zurück.
-description  = Generiert ... <br /><br /><span class='plugindraft-bold'>Nutzung:</span><br /><span class='plugindraft-code'>{PARAM1}</span> Fügt ... ein.<br /><br /><span class='plugindraft-pre'>&lt;attribut&gt;: </span>Attributbeschreibung ... <span class='plugindraft-pre'>...</span><br /><br /><span class='plugindraft-bold'>Dokumentation:</span><br />Eine ausführliche Dokumentation ist auf <span class="plugindraft-italic">devmount.de</span> zu finden (siehe obenstehender Link).
-admin_header = {PARAM1} Plugin Konfiguration
-on_devmount  = auf devmount.de
+tag1                    = Gibt eine Liste der Kategorien zurück.
+tag2                    = Gibt Inhalt kategoriespezifisch zurück.
+tag3                    = Gibt Inhalt kategoriespezifisch zurück.
+tag4                    = Gibt Inhaltseiten einer Kategorie zurück.
+description             = Bietet Zusatzfunktionien für Menüs. <br /><br /><span class='plugindraft-bold'>Nutzung:</span><br /><span class='plugindraft-code'>{PARAM1}</span> Fügt eine Liste aller Kategorien ein.<br /><br /><span class='plugindraft-code'>{PARAM2}</span> Fügt Inhalt abhängig von einer Kategorie ein.<br /><br /><span class='plugindraft-pre'>&lt;category&gt;: </span>Kategorie, die aktiv sein muss<br /><span class='plugindraft-pre'>&lt;content&gt;: </span>Inhalt, welcher eingefügt wird, wenn die <span class='plugindraft-pre'>&lt;category&gt;</span> aktiv ist<br /><br /><span class='plugindraft-code'>{SpecialMenu|ifnot|&lt;category&gt;|&lt;content&gt;}</span> Fügt Inhalt abhängig von einer Kategorie ein.<br /><br /><span class='plugindraft-pre'>&lt;category&gt;: </span>Kategorie, die inaktiv sein muss<br /><span class='plugindraft-pre'>&lt;content&gt;: </span>Inhalt, welcher eingefügt wird, wenn die <span class='plugindraft-pre'>&lt;category&gt;</span> nicht aktiv ist<br /><br /><span class='plugindraft-code'>{SpecialMenu|pages|&lt;category&gt;}</span> Fügt eine Liste der Seiten einer Kategorie ein.<br /><br /><span class='plugindraft-pre'>&lt;category&gt;: </span>Die Kategorie, deren Seiten aufgelistet werden sollen.<br /><br /><span class='plugindraft-bold'>Dokumentation:</span><br />Eine ausführliche Dokumentation ist auf <span class="plugindraft-italic">devmount.de</span> zu finden (iehe obenstehender Link).
+on_devmount             = auf devmount.de
+admin_header            = {PARAM1} Plugin Konfiguration
+admin_display           = Anzeigeoptionen
+config_hidefirstcat     = Die erste Kategorie verbergen
+config_showcatlikepage  = Inhaltsseiten anzeigen, die den gleichen Namen haben wie ihre Kategorie
+config_showhidden       = versteckte Inhaltsseiten anzeigen
+config_showdraft        = Entwürfe anzeigen
