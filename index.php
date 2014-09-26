@@ -51,7 +51,8 @@ class SpecialMenu extends Plugin
         = 'http://devmount.de/Develop/moziloCMS/Plugins/SpecialMenu.html';
 
     private $_plugin_tags = array(
-        'tag1' => '{SpecialMenu|type|<param1>|<param2>}',
+        'tag1' => '{SpecialMenu|if|<category>|<content>}',
+        'tag2' => '{SpecialMenu|this|<category>}',
     );
 
     const LOGO_URL = 'http://media.devmount.de/logo_pluginconf.png';
@@ -68,45 +69,45 @@ class SpecialMenu extends Plugin
      *      radio    => default, type, descriptions
      *      select   => default, type, descriptions, multiselect
      */
-    private $_confdefault = array(
-        'text' => array(
-            'string',
-            'text',
-            '100',
-            '5',
-            "/^[0-9]{1,3}$/",
-        ),
-        'textarea' => array(
-            'string',
-            'textarea',
-            '10',
-            '10',
-            "/^[a-zA-Z0-9]{1,10}$/",
-        ),
-        'password' => array(
-            'string',
-            'password',
-            '100',
-            '5',
-            "/^[a-zA-Z0-9]{8,20}$/",
-            true,
-        ),
-        'check' => array(
-            true,
-            'check',
-        ),
-        'radio' => array(
-            'red',
-            'radio',
-            array('red', 'green', 'blue'),
-        ),
-        'select' => array(
-            'bike',
-            'select',
-            array('car','bike','plane'),
-            false,
-        ),
-    );
+    // private $_confdefault = array(
+    //     'text' => array(
+    //         'string',
+    //         'text',
+    //         '100',
+    //         '5',
+    //         "/^[0-9]{1,3}$/",
+    //     ),
+    //     'textarea' => array(
+    //         'string',
+    //         'textarea',
+    //         '10',
+    //         '10',
+    //         "/^[a-zA-Z0-9]{1,10}$/",
+    //     ),
+    //     'password' => array(
+    //         'string',
+    //         'password',
+    //         '100',
+    //         '5',
+    //         "/^[a-zA-Z0-9]{8,20}$/",
+    //         true,
+    //     ),
+    //     'check' => array(
+    //         true,
+    //         'check',
+    //     ),
+    //     'radio' => array(
+    //         'red',
+    //         'radio',
+    //         array('red', 'green', 'blue'),
+    //     ),
+    //     'select' => array(
+    //         'bike',
+    //         'select',
+    //         array('car','bike','plane'),
+    //         false,
+    //     ),
+    // );
 
     /**
      * creates plugin content
@@ -128,29 +129,19 @@ class SpecialMenu extends Plugin
             . '.txt'
         );
 
-        // get language labels
-        $label = $this->_cms_lang->getLanguageValue('label');
-
         // get params
-        list($param_1, $param_2) = explode('|', $value);
-        $param_1 = trim($param_1);
-        $param_2 = trim($param_2);
+        list($param_type, $param_category, $param_content) = explode('|', $value);
+        $param_type = trim($param_type);
+        $param_category = trim($param_category);
+        $param_content = trim($param_content);
 
         // get conf and set default
-        $conf = array();
-        foreach ($this->_confdefault as $elem => $default) {
-            $conf[$elem] = ($this->settings->get($elem) == '')
-                ? $default[0]
-                : $this->settings->get($elem);
-        }
-
-        // include jquery and SpecialMenu javascript
-        $syntax->insert_jquery_in_head('jquery');
-        $syntax->insert_in_head(
-            '<script type="text/javascript" src="'
-            . $this->PLUGIN_SELF_URL
-            . 'js/SpecialMenu.js"></script>'
-        );
+        // $conf = array();
+        // foreach ($this->_confdefault as $elem => $default) {
+        //     $conf[$elem] = ($this->settings->get($elem) == '')
+        //         ? $default[0]
+        //         : $this->settings->get($elem);
+        // }
 
         // initialize return content, begin plugin content
         $content = '<!-- BEGIN ' . self::PLUGIN_TITLE . ' plugin content --> ';
@@ -258,43 +249,43 @@ class SpecialMenu extends Plugin
             $admin_css .= trim($line);
         }
 
-        // add template CSS
-        $template = '<style>' . $admin_css . '</style>';
+        // // add template CSS
+        // $template = '<style>' . $admin_css . '</style>';
 
-        // build Template
-        $template .= '
-            <div class="specialmenu-admin-header">
-            <span>'
-                . $this->_admin_lang->getLanguageValue(
-                    'admin_header',
-                    self::PLUGIN_TITLE
-                )
-            . '</span>
-            <a href="' . self::PLUGIN_DOCU . '" target="_blank">
-            <img style="float:right;" src="' . self::LOGO_URL . '" />
-            </a>
-            </div>
-        </li>
-        <li class="mo-in-ul-li ui-widget-content specialmenu-admin-li">
-            <div class="specialmenu-admin-subheader">'
-            . $this->_admin_lang->getLanguageValue('admin_test')
-            . '</div>
-            <div class="specialmenu-single-conf">
-                {test1_text}
-                {test1_description}
-                <span class="specialmenu-admin-default">
-                    [' . /*$this->_confdefault['test1'][0] .*/']
-                </span>
-            </div>
-            <div class="specialmenu-single-conf">
-                {test2_text}
-                {test2_description}
-                <span class="specialmenu-admin-default">
-                    [' . /*$this->_confdefault['test2'][0] .*/']
-                </span>
-        ';
+        // // build Template
+        // $template .= '
+        //     <div class="specialmenu-admin-header">
+        //     <span>'
+        //         . $this->_admin_lang->getLanguageValue(
+        //             'admin_header',
+        //             self::PLUGIN_TITLE
+        //         )
+        //     . '</span>
+        //     <a href="' . self::PLUGIN_DOCU . '" target="_blank">
+        //     <img style="float:right;" src="' . self::LOGO_URL . '" />
+        //     </a>
+        //     </div>
+        // </li>
+        // <li class="mo-in-ul-li ui-widget-content specialmenu-admin-li">
+        //     <div class="specialmenu-admin-subheader">'
+        //     . $this->_admin_lang->getLanguageValue('admin_test')
+        //     . '</div>
+        //     <div class="specialmenu-single-conf">
+        //         {test1_text}
+        //         {test1_description}
+        //         <span class="specialmenu-admin-default">
+        //             [' . /*$this->_confdefault['test1'][0] .*/']
+        //         </span>
+        //     </div>
+        //     <div class="specialmenu-single-conf">
+        //         {test2_text}
+        //         {test2_description}
+        //         <span class="specialmenu-admin-default">
+        //             [' . /*$this->_confdefault['test2'][0] .*/']
+        //         </span>
+        // ';
 
-        $config['--template~~'] = $template;
+        // $config['--template~~'] = $template;
 
         return $config;
     }
