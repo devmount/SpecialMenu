@@ -2,7 +2,8 @@
     PluginDraft CSS styles
 */
 
-.specialmenu {
+.specialmenu a {
+    display: block;
 }
 
 /* NOTICE message */

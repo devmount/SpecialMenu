@@ -143,11 +143,13 @@ class SpecialMenu extends Plugin
                 if ($conf['hidefirstcat'] == 'true') {
                     array_shift($cats);
                 }
+                $content .= '<div class="specialmenu">';
                 foreach ($cats as $cat) {
                     $content .=
                         '[kategorie='. urldecode($cat)
                         . '|@='. $cat . '=@]';
                 }
+                $content .= '</div>';
                 break;
 
             case 'if':
@@ -173,6 +175,7 @@ class SpecialMenu extends Plugin
                     $cat = substr($param_category, $this->strrpos($param_category, '%2F')+3);
                 }
                 // build page list
+                $content .= '<div class="specialmenu">';
                 foreach ($pagearray as $page) {
                     // handle page with same name as category
                     if ($conf['showcatlikepage'] == 'true' or $page != $cat) {
@@ -182,6 +185,7 @@ class SpecialMenu extends Plugin
                             . '|@='. $param_category . ':'. $page . '=@]';
                     }
                 }
+                $content .= '</div>';
                 break;
 
             default:
