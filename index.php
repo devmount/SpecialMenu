@@ -11,7 +11,7 @@
  * @package  PHP_MoziloPlugins
  * @author   DEVMOUNT <mail@devmount.de>
  * @license  GPL v3+
- * @version  GIT: v0.x.jjjj-mm-dd
+ * @version  GIT: v0.1.2014-09-26
  * @link     https://github.com/devmount/SpecialMenu
  * @link     http://devmount.de/Develop/moziloCMS/Plugins/SpecialMenu.html
  * @see      Verse
@@ -45,7 +45,7 @@ class SpecialMenu extends Plugin
     // plugin information
     const PLUGIN_AUTHOR  = 'DEVMOUNT';
     const PLUGIN_TITLE   = 'SpecialMenu';
-    const PLUGIN_VERSION = 'v0.x.jjjj-mm-dd';
+    const PLUGIN_VERSION = 'v0.1.2014-09-26';
     const MOZILO_VERSION = '2.0';
     const PLUGIN_DOCU
         = 'http://devmount.de/Develop/moziloCMS/Plugins/SpecialMenu.html';
