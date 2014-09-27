@@ -1,4 +1,12 @@
-tag          = Returns ...
-description  = Generates ... <br /><br /><span class='plugindraft-bold'>Use:</span><br /><span class='plugindraft-code'>{PARAM1}</span> Inserts ...<br /><br /><span class='plugindraft-pre'>&lt;attribute&gt;: </span>description ... <span class='plugindraft-pre'>...</span><br /><br /><span class='plugindraft-bold'>Documentation:</span><br />A detailed documentation can be found on <span class='plugindraft-italic'>devmount.de </span> (link above).
-admin_header = {PARAM1} Plugin Configuration
-on_devmount  = on devmount.de
+tag1                    = Returns the list of categories
+tag2                    = Returns content depending on given category
+tag3                    = Returns content depending on given category
+tag4                    = Returns content pages of given category
+description             = Offers additional functionalities for menus. <br /><br /><span class='plugindraft-bold'>Use:</span><br /><span class='plugindraft-code'>{PARAM1}</span> Inserts a list of all existing categories.<br /><br /><span class='plugindraft-code'>{PARAM2}</span> Inserts content depending on the category.<br /><br /><span class='plugindraft-pre'>&lt;category&gt;: </span>Category that has to be active<br /><span class='plugindraft-pre'>&lt;content&gt;: </span>Inserted content if <span class='plugindraft-pre'>&lt;category&gt;</span> is active.<br /><br /><span class='plugindraft-code'>{SpecialMenu|ifnot|&lt;category&gt;|&lt;content&gt;}</span> Inserts content depending on the category.<br /><br /><span class='plugindraft-pre'>&lt;category&gt;: </span>Category that has to be inactive.<br /><span class='plugindraft-pre'>&lt;content&gt;: </span>Inserted content if <span class='plugindraft-pre'>&lt;category&gt;</span> is inactive.<br /><br /><span class='plugindraft-code'>{SpecialMenu|pages|&lt;category&gt;}</span> Inserts a list of content pages of a category.<br /><br /><span class='plugindraft-pre'>&lt;category&gt;: </span>Category to show content pages of.<br /><br /><span class='plugindraft-bold'>Documentation:</span><br />A detailed documentation can be found on <span class='plugindraft-italic'>devmount.de </span> (link above).
+on_devmount             = on devmount.de
+admin_header            = {PARAM1} Plugin Configuration
+admin_display           = Display options
+config_hidefirstcat     = Hide first category
+config_showcatlikepage  = Show content pages with the same name as their category
+config_showhidden       = Show hidden content pages
+config_showdraft        = Show draft content pages
