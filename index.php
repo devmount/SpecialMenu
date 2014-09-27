@@ -14,7 +14,8 @@
  * @version  GIT: v0.1.2014-09-26
  * @link     https://github.com/devmount/SpecialMenu
  * @link     http://devmount.de/Develop/moziloCMS/Plugins/SpecialMenu.html
- * @see      Verse
+ * @see      Taste and see that the LORD is good; blessed is the man who takes refuge
+ *           in him.
  *           – The Bible
  *
  * Plugin created by DEVMOUNT
