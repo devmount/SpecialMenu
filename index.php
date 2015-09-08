@@ -12,7 +12,7 @@
  * @author   DEVMOUNT <mail@devmount.de>
  * @license  GPL v3+
  * @version  GIT: v0.1.2014-09-26
- * @link     https://github.com/devmount/SpecialMenu
+ * @link     https://github.com/devmount-mozilo/SpecialMenu
  * @link     http://devmount.de/Develop/moziloCMS/Plugins/SpecialMenu.html
  * @see      Taste and see that the LORD is good; blessed is the man who takes refuge
  *           in him.
@@ -35,7 +35,7 @@ if (!defined('IS_CMS')) {
  * @package  PHP_MoziloPlugins
  * @author   DEVMOUNT <mail@devmount.de>
  * @license  GPL v3+
- * @link     https://github.com/devmount/SpecialMenu
+ * @link     https://github.com/devmount-mozilo/SpecialMenu
  */
 class SpecialMenu extends Plugin
 {
